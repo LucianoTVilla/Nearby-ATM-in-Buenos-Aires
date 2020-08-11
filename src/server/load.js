@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const db = require('./config');
 const fs = require('fs');
 
 const sql = fs.readFileSync('../sql/cajeros-automaticos.sql').toString();

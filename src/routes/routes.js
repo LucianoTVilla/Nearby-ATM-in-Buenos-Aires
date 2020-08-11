@@ -4,10 +4,9 @@ const geolib = require('geolib');
 const db = require('../server/config');
 const router = express.Router();
 
-router.get('/cajeros/:red', (req, res, next) => {
-
+router.get('/cajeros', (req, res, next) => {
   let allBanks = [];
-  db.query(`SELECT * FROM cajeros_automaticos WHERE red='${req.params.red}';`, (err, result) => {
+  db.query(`SELECT * FROM cajeros_automaticos WHERE red='${req.query.red}';`, (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -19,7 +18,7 @@ router.get('/cajeros/:red', (req, res, next) => {
       newBank.name = bank.banco;
       allBanks.push(newBank)
     })
-    let nearbyBanks = geolib.orderByDistance({latitude: req.body.latitude, longitude: req.body.longitude}, allBanks);
+    let nearbyBanks = geolib.orderByDistance({latitude: req.query.latitude, longitude: req.query.longitude}, allBanks);
     res.json(nearbyBanks.slice(0,3));
   });
 });
